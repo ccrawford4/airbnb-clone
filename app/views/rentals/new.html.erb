@@ -14,8 +14,8 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :category_id %>
-    <%= form.collection_select :category_id, Category.all, :id, :name, prompt: "Select a Category" %>
+    <%= form.label :category_ids, "Categories" %>
+    <%= form.collection_select :category_ids, Category.all, :id, :name, { prompt: "Select up to 3 Categories" }, { multiple: true, size: 5 } %>
   </div>
 
   <div class="field">
