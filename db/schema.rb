@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_15_051939) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_15_054922) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "uuid-ossp"
@@ -22,9 +22,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_15_051939) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "categories_rentals", id: false, force: :cascade do |t|
-    t.bigint "rental_id", null: false
-    t.bigint "category_id", null: false
+  create_table "categories_rentals", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "rental_id", null: false
+    t.uuid "category_id", null: false
     t.index ["category_id"], name: "index_categories_rentals_on_category_id"
     t.index ["rental_id"], name: "index_categories_rentals_on_rental_id"
   end
@@ -46,5 +46,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_15_051939) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "categories_rentals", "categories"
+  add_foreign_key "categories_rentals", "rentals"
   add_foreign_key "rental_images", "rentals", on_delete: :cascade
 end

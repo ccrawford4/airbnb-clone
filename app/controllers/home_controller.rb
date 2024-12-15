@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
   def index
-    @rentals = Rental.all
+    @categories = Category.all
+    @rentals = Rental.includes(:categories).all
   end
 end

@@ -2,8 +2,27 @@
 
 <%= link_to 'Add New Rental', new_rental_path, class: 'btn btn-primary' %>
 
-<div class="rental-gallery">
-    <% @rentals.each do |rental| %>
-        <%= render 'rentals/rental_card', rental: rental %>
+<div class="categories-tabs">
+  <ul class="nav nav-tabs" id="categoryTabs" role="tablist">
+    <% @categories.each_with_index do |category, index| %>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link <%= 'active' if index == 0 %>" id="tab-<%= category.id %>" data-toggle="tab" href="#category-<%= category.id %>" role="tab" aria-controls="category-<%= category.id %>" aria-selected="<%= index == 0 %>">
+          <img src="<%= category.image_url %>" alt="<%= category.name %>" class="category-image">
+          <%= category.name %>
+        </a>
+      </li>
     <% end %>
+  </ul>
+</div>
+
+<div class="tab-content" id="categoryTabsContent">
+  <% @categories.each_with_index do |category, index| %>
+    <div class="tab-pane fade <%= 'show active' if index == 0 %>" id="category-<%= category.id %>" role="tabpanel" aria-labelledby="tab-<%= category.id %>">
+      <div class="rental-gallery">
+        <% category.rentals.each do |rental| %>
+          <%= render 'rentals/rental_card', rental: rental %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
 </div>
