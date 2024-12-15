@@ -9,12 +9,12 @@ class RentalsController < ApplicationController
 
   def new
     @rental = Rental.new
+    @rental.rental_images.build
   end
 
   def create
     @rental = Rental.new(rental_params)
     if @rental.save
-      @rental.categories = Category.find(params[:rental][:category_ids].reject(&:blank?))
       redirect_to root_path, notice: "Rental was successfully created."
     else
       render :new
@@ -24,6 +24,12 @@ class RentalsController < ApplicationController
   private
 
   def rental_params
-    params.require(:rental).permit(:address, :score, :price, category_ids: [])
+    params.require(:rental).permit(
+      :address,
+      :score,
+      :price,
+      category_ids: [],
+      rental_images_attributes: [ :image, :is_cover ]
+    )
   end
 end

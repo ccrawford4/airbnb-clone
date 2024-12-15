@@ -1,6 +1,6 @@
 <h1>New Rental</h1>
 
-<%= form_with(model: @rental, local: true) do |form| %>
+<%= form_with(model: @rental, local: true, html: { multipart: true }) do |form| %>
   <% if @rental.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@rental.errors.count, "error") %> prohibited this rental from being saved:</h2>
@@ -31,6 +31,14 @@
   <div class="field">
     <%= form.label :price %>
     <%= form.number_field :price %>
+  </div>
+
+  <div class="field">
+    <%= form.fields_for :rental_images do |image_form| %>
+      <%= image_form.label :image, "Upload Image" %>
+      <%= image_form.file_field :image %>
+      <%= image_form.hidden_field :is_cover, value: true %>
+    <% end %>
   </div>
 
   <div class="actions">

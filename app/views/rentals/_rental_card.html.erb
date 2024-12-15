@@ -1,7 +1,13 @@
 <div class="rental-card">
   <% cover_image = rental.rental_images.find_by(is_cover: true) %>
   <% if cover_image %>
-    <img src="<%= cover_image.image_url %>" alt="Cover Image" class="cover-image">
+    <% if cover_image.image.attached? %>
+      <%= image_tag url_for(cover_image.image), alt: "Cover Image", class: "cover-image" %>
+    <% else %>
+      <p>Image is not attached</p>
+    <% end %>
+  <% else %>
+    <p>No cover image found</p>
   <% end %>
   <p>Address: <%= rental.address %></p>
   <p>Score: <%= rental.score %></p>

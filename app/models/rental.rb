@@ -1,7 +1,9 @@
 class Rental < ApplicationRecord
-  has_and_belongs_to_many :categories
-  has_many :rental_images, primary_key: :id, foreign_key: :rental_id, dependent: :destroy
+  has_and_belongs_to_many :categories, dependent: :destroy
+  has_many :rental_images, inverse_of: :rental, dependent: :destroy
 
   validates :address, presence: true
   validates :price, presence: true
+
+  accepts_nested_attributes_for :rental_images, allow_destroy: true
 end

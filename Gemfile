@@ -31,6 +31,12 @@ gem "solid_cache"
 gem "solid_queue"
 gem "solid_cable"
 
+gem "aws-sdk-s3"
+
+gem "dotenv-rails", groups: [ :development, :test ]
+
+gem "image_processing", "~> 1.2"
+
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 

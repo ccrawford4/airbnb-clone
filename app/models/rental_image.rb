@@ -1,6 +1,7 @@
 class RentalImage < ApplicationRecord
-  belongs_to :rental, primary_key: :id, foreign_key: :rental_id
+  belongs_to :rental, inverse_of: :rental_images, optional: true
 
-  validates :image_url, presence: true
-  validates :rental_id, presence: true
+  has_one_attached :image
+
+  validates :image, presence: true
 end
