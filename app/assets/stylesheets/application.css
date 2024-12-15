@@ -8,3 +8,24 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+ .rental-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .rental-card {
+    border: 1px solid #ccc;
+    padding: 20px;
+    width: 200px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .rental-card h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+  
+  .rental-card p {
+    margin: 5px 0;
+  }
