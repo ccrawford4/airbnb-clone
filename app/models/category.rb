@@ -1,5 +1,5 @@
 class Category < ApplicationRecord
-  has_many :rentals, primary_key: :id, foreign_key: :category_id
+  has_and_belongs_to_many :rentals
 
   validates :image_url, presence: true
   validates :name, presence: true
