@@ -1,4 +1,8 @@
 <div class="rental-card">
+  <% cover_image = rental.rental_images.find_by(is_cover: true) %>
+  <% if cover_image %>
+    <img src="<%= cover_image.image_url %>" alt="Cover Image" class="cover-image">
+  <% end %>
   <p>Address: <%= rental.address %></p>
   <p>Score: <%= rental.score %></p>
   <p>Price: $<%= rental.price %></p>

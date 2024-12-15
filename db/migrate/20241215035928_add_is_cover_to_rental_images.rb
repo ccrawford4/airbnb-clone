@@ -1,0 +1,5 @@
+class AddIsCoverToRentalImages < ActiveRecord::Migration[8.0]
+  def change
+    add_column :rental_images, :is_cover, :boolean, default: false
+  end
+end

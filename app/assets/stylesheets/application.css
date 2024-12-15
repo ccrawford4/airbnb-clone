@@ -19,6 +19,13 @@
     padding: 20px;
     width: 200px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
+  .rental-card img.cover-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
   }
   
   .rental-card h2 {
