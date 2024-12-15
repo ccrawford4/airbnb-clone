@@ -2,8 +2,8 @@
 
 one:
   image_url: MyString
-  name: MyString
+  rental: 
 
 two:
   image_url: MyString
-  name: MyString
+  rental: 

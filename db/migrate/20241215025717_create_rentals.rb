@@ -1,10 +1,10 @@
 class CreateRentals < ActiveRecord::Migration[8.0]
   def change
-    create_table :rentals do |t|
+    create_table :rentals, id: :uuid do |t|
       t.uuid :category_id, null: false
-      t.string :address
+      t.string :address, null: false
       t.decimal :score
-      t.decimal :price
+      t.decimal :price, null: false
 
       t.timestamps
     end
