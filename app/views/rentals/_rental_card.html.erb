@@ -12,4 +12,7 @@
   <p>Address: <%= rental.address %></p>
   <p>Score: <%= rental.score %></p>
   <p>Price: $<%= rental.price %></p>
+  <% if rental.description %>
+    <p>Description: <%= rental.description %></p>
+  <% end %>
 </div>

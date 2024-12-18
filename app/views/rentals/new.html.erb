@@ -14,6 +14,11 @@
   <% end %>
 
   <div class="field">
+    <%= form.label :rental_description %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div class="field">
     <%= form.label :category_ids, "Categories" %>
     <%= form.collection_select :category_ids, Category.all, :id, :name, { prompt: "Select up to 3 Categories" }, { multiple: true, size: 5 } %>
   </div>

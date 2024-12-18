@@ -25,6 +25,7 @@ class RentalsController < ApplicationController
 
   def rental_params
     params.require(:rental).permit(
+      :description,
       :address,
       :score,
       :price,
