@@ -19,6 +19,7 @@
       <p>Step <%= @current_step %></p>
     </div>
 
+  <% if @current_step.to_i == 1 %>
     <div class="content-container">
     <div class="text-content">
          <h1 class="title">Tell us about your place</h1>
@@ -35,10 +36,24 @@
         </video>
       </div>
     </div>
+    <% else %>
+      <h1 class="title">Which of these best describes your place?</h1>
+          <div class="rental-types-grid">
+            <% @rental_types.each do |rental_type| %>
+              <div class="rental-type-card">
+                <div class="rental-type-icon">
+                  <%= image_tag rental_type[:image_url], alt: rental_type[:name], class: "icon" %>
+                </div>
+                <p class="rental-type-name"><%= rental_type[:name] %></p>
+              </div>
+            <% end %>
+          </div>
+      <% end %>
 
     <div class="navigation-buttons">
       <%= link_to "Back", new_listing_path(step: [@current_step.to_i - 1, 1].max), class: "back-btn" unless @current_step.to_i == 1 %>
       <%= link_to "Next", new_listing_path(step: [@current_step.to_i + 1, 3].min), class: "next-btn" %>
     </div>
   </main>
+  </div>
 </div>
