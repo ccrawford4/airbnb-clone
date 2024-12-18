@@ -1,0 +1,26 @@
+<h1><%= @article.short_description %></h1>
+
+<p><%= @article.long_description %></p>
+
+<ul>
+    <li>
+        <%= link_to "Edit", edit_article_path(@article) %>
+    </li>
+    <li>
+        <%= 
+            link_to "Destroy", article_path(@article),
+            data: {
+                turbo_method: :delete,
+                turbo_confirm: "Are you sure?"
+            } 
+        %>
+    </li>
+</ul>
+
+<% if @article.comments.length > 0 %>
+  <h2>Comments</h2>
+  <%= render @article.comments %>
+<% end %>
+
+<h2>Add a comment:</h2>
+<%= render "comments/form", article: @article %>

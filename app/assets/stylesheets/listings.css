@@ -1,0 +1,108 @@
+/* app/assets/stylesheets/listings.css */
+.listing-creation {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 2rem;
+  }
+  
+  .logo {
+    text-decoration: none;
+  }
+  
+  .header-actions {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .questions-btn,
+  .save-exit-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 1.5rem;
+    background: white;
+    font-size: 0.875rem;
+    cursor: pointer;
+  }
+  
+  .questions-btn:hover,
+  .save-exit-btn:hover {
+    background: #f7f7f7;
+  }
+  
+  .main-content {
+    flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  
+  .step-indicator {
+    color: #717171;
+    margin-bottom: 1rem;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  
+  .description {
+    color: #717171;
+    max-width: 600px;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+  }
+  
+  .property-preview {
+    margin: 2rem 0;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .property-image {
+    max-width: 600px;
+    height: auto;
+    border-radius: 0.5rem;
+  }
+  
+  .navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 2rem;
+    border-top: 1px solid #ddd;
+  }
+  
+  .back-btn,
+  .next-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .back-btn {
+    color: #222;
+    background: transparent;
+  }
+  
+  .next-btn {
+    color: white;
+    background: #222;
+  }
+  
+  .back-btn:hover {
+    background: #f7f7f7;
+  }
+  
+  .next-btn:hover {
+    background: #000;
+  }

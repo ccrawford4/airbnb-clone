@@ -1,0 +1,38 @@
+<div class="listing-creation">
+  <header class="header">
+    <%= link_to root_path, class: "logo" do %>
+      <%= image_tag "/api/placeholder/32/32", alt: "Logo", class: "h-8 w-8" %>
+    <% end %>
+    
+    <div class="header-actions">
+      <button class="questions-btn">Questions?</button>
+      <button class="save-exit-btn">Save & exit</button>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="step-indicator">
+      <p>Step <%= @current_step %></p>
+    </div>
+
+    <h1 class="title">Tell us about your place</h1>
+    
+    <p class="description">
+      In this step, we'll ask you which type of property you have and 
+      if guests will book the entire place or just a room. Then let us 
+      know the location and how many guests can stay.
+    </p>
+
+    <div class="property-preview">
+      <%= image_tag "/api/placeholder/600/400", alt: "Property Layout", class: "property-image" %>
+    </div>
+
+    <div class="navigation-buttons">
+      <%= link_to "Back", new_listing_path(step: [@current_step.to_i - 1, 1].max), 
+          class: "back-btn" unless @current_step.to_i == 1 %>
+      
+      <%= link_to "Next", new_listing_path(step: [@current_step.to_i + 1, 3].min), 
+          class: "next-btn" %>
+    </div>
+  </main>
+</div>
