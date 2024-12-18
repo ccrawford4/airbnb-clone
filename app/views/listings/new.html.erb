@@ -5,9 +5,8 @@
 <div class="listing-creation">
   <header class="header">
     <%= link_to root_path, class: "logo" do %>
-      <%= image_tag "/api/placeholder/32/32", alt: "Logo", class: "h-8 w-8" %>
+        <%= image_tag @logo_url, alt: "Logo" %>
     <% end %>
-    
     <div class="header-actions">
       <button class="questions-btn">Questions?</button>
       <button class="save-exit-btn">Save & exit</button>
@@ -31,6 +30,12 @@
       <%= image_tag "/api/placeholder/600/400", alt: "Property Layout", class: "property-image" %>
     </div>
 
+    <video data-testid="video-player" class="v186kq3t dir dir-ltr" autoplay muted crossorigin="anonymous" playsinline preload="auto" style="object-fit: cover;">
+        <source 
+            type="video/mp4"
+            src="https://stream.media.muscache.com/zFaydEaihX6LP01x8TSCl76WHblb01Z01RrFELxyCXoNek.mp4?v_q=high"
+        ></video>
+    
     <div class="navigation-buttons">
       <%= link_to "Back", new_listing_path(step: [@current_step.to_i - 1, 1].max), 
           class: "back-btn" unless @current_step.to_i == 1 %>
