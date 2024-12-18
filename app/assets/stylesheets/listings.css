@@ -144,10 +144,13 @@
 
   .rental-types-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
     margin-bottom: 2rem;
-  }
+    max-width: 850px;  /* This will keep 3 columns close together */
+    margin-left: auto;
+    margin-right: auto;
+}
 
   @media (min-width: 768px) {
     .rental-types-grid {
