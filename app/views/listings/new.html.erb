@@ -5,8 +5,9 @@
 <div class="listing-creation">
   <header class="header">
     <%= link_to root_path, class: "logo" do %>
-        <%= image_tag @logo_url, alt: "Logo" %>
+      <%= image_tag @logo_url, alt: "Logo", height: 32, width: 32 %>
     <% end %>
+    
     <div class="header-actions">
       <button class="questions-btn">Questions?</button>
       <button class="save-exit-btn">Save & exit</button>
@@ -26,22 +27,17 @@
       know the location and how many guests can stay.
     </p>
 
-    <div class="property-preview">
-      <%= image_tag "/api/placeholder/600/400", alt: "Property Layout", class: "property-image" %>
+    <div class="content-container">
+      <div class="video-content">
+        <video data-testid="video-player" class="v186kq3t dir dir-ltr" autoplay muted crossorigin="anonymous" playsinline preload="auto" style="object-fit: cover;">
+          <source type="video/mp4" src="https://stream.media.muscache.com/zFaydEaihX6LP01x8TSCl76WHblb01Z01RrFELxyCXoNek.mp4?v_q=high">
+        </video>
+      </div>
     </div>
 
-    <video data-testid="video-player" class="v186kq3t dir dir-ltr" autoplay muted crossorigin="anonymous" playsinline preload="auto" style="object-fit: cover;">
-        <source 
-            type="video/mp4"
-            src="https://stream.media.muscache.com/zFaydEaihX6LP01x8TSCl76WHblb01Z01RrFELxyCXoNek.mp4?v_q=high"
-        ></video>
-    
     <div class="navigation-buttons">
-      <%= link_to "Back", new_listing_path(step: [@current_step.to_i - 1, 1].max), 
-          class: "back-btn" unless @current_step.to_i == 1 %>
-      
-      <%= link_to "Next", new_listing_path(step: [@current_step.to_i + 1, 3].min), 
-          class: "next-btn" %>
+      <%= link_to "Back", new_listing_path(step: [@current_step.to_i - 1, 1].max), class: "back-btn" unless @current_step.to_i == 1 %>
+      <%= link_to "Next", new_listing_path(step: [@current_step.to_i + 1, 3].min), class: "next-btn" %>
     </div>
   </main>
 </div>
