@@ -1,0 +1,45 @@
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <!-- Step indicator -->
+  <div class="mb-6">
+    <p class="text-sm text-gray-600">Step 3</p>
+  </div>
+
+  <!-- Main content -->
+  <div class="space-y-6">
+    <div>
+      <h1 class="text-2xl font-semibold">Where's your place located?</h1>
+      <p class="text-gray-600 mt-1">Your address is only shared with guests after they've made a reservation.</p>
+    </div>
+
+    <%= form_with(url: new_listing_path, local: true, class: "space-y-6") do |f| %>
+      <!-- Search input -->
+      <div>
+        <%= f.text_field :address,
+            class: "w-full border border-gray-300 rounded-md px-4 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500",
+            placeholder: "Enter your address",
+            data: { 
+              controller: "address-autocomplete",
+              action: "change->address-autocomplete#updateMap"
+            } %>
+      </div>
+
+      <!-- Map container -->
+      <div class="w-full h-[400px] bg-gray-100 rounded-md overflow-hidden">
+        <div id="map" class="w-full h-full"></div>
+      </div>
+
+      <!-- Location input -->
+      <div class="space-y-2">
+        <label class="block text-sm font-medium text-gray-700">Location</label>
+        <%= f.text_field :formatted_address,
+            class: "w-full border border-gray-300 rounded-md px-4 py-2 focus:border-blue-500 focus:ring-1 focus:ring-blue-500",
+            disabled: true %>
+      </div>
+
+      <!-- Save button -->
+      <%= f.submit "Save Location",
+          class: "bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" %>
+    <% end %>
+  </div>
+  </div>
+</div>
