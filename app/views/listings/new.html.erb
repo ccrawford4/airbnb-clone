@@ -40,20 +40,58 @@
       <h1 class="title">Which of these best describes your place?</h1>
           <div class="rental-types-grid">
             <% @rental_types.each do |rental_type| %>
-              <div class="rental-type-card">
+            <%= link_to new_listing_path(step: @current_step, rental_type_id: rental_type.id), method: :patch, class: (params[:rental_type_id] == rental_type.id ? "rental-type-card-selected" : "rental-type-card") do %>
                 <div class="rental-type-icon">
                   <%= image_tag rental_type[:image_url], alt: rental_type[:name], class: "icon" %>
                 </div>
                 <p class="rental-type-name"><%= rental_type[:name] %></p>
-              </div>
+              <% end %>
             <% end %>
           </div>
       <% end %>
 
     <div class="navigation-buttons">
       <%= link_to "Back", new_listing_path(step: [@current_step.to_i - 1, 1].max), class: "back-btn" unless @current_step.to_i == 1 %>
-      <%= link_to "Next", new_listing_path(step: [@current_step.to_i + 1, 3].min), class: "next-btn" %>
+      <% if @current_step.to_i == 2 and @selected_rental_type.nil? %>
+        <button class="next-btn" disabled>Next</button>
+      <% else %>
+        <%= link_to "Next", new_listing_path(step: [@current_step.to_i + 1, 3].min), class: "next-btn" %>
+      <% end %>
     </div>
   </main>
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const rentalTypeCards = document.querySelectorAll('.rental-type-card');
+    const nextButton = document.getElementById('next-btn');
+
+    rentalTypeCards.forEach(card => {
+      card.addEventListener('click', () => {
+        console.log("CARD: ", card);
+        const rentalTypeId = card.getAttribute('data-rental-type-id');
+
+        // Send AJAX request to update rental_type_id
+        fetch('<%= new_listing_path %>', {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': '<%= form_authenticity_token %>'
+          },
+          body: JSON.stringify({ rental_type_id: rentalTypeId, step: <%= @current_step %> })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            // const selectedRentalCard = rentalTypeCards.find((c) => c.id === rentalTypeId)
+            rentalTypeCards.forEach(c => c.classList.remove('selected'));
+            console.log("Card.classList: ", card.classList);
+            card.classList.add('selected');
+            nextButton.removeAttribute('disabled');
+          }
+        });
+      });
+    });
+  });
+</script>

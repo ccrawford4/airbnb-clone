@@ -110,6 +110,11 @@
     background: #000;
   }
 
+  .next-btn[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #ccc;
+  }
   .content-container {
     display: flex;
     flex-wrap: wrap;
@@ -171,10 +176,31 @@
     cursor: pointer;
     transition: all 0.2s ease;
     max-width: 250px;
+    text-decoration: none;
+    color: black
   }
   
   .rental-type-card:hover {
     border-color: #222;
+    text-decoration: none;
+    color: black;
+  }
+
+  .rental-type-card-selected {
+    border:  2px solid black;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    max-width: 250px;
+    text-decoration: none;
+    color: black;
+  }
+
+  .rental-type-card-selected:hover {
+    border-color: #222;
+    text-decoration: none;
+    color: black;
   }
   
   

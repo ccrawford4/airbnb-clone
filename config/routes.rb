@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   resources :rentals
-  resources :listings, only: [ :new ]
+  resources :listings do
+    collection do
+      patch :new
+    end
+  end
 
   get "home/index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
