@@ -11,7 +11,7 @@
       <p class="text-gray-600 mt-1">Your address is only shared with guests after they've made a reservation.</p>
     </div>
 
-    <%= form_with(url: new_listing_path, local: true, class: "space-y-6") do |f| %>
+    <%= form_with(url: new_listing_path, local: true,  data: { controller: "places" },  class: "space-y-6") do |f| %>
       <!-- Search input -->
       <div>
         <%= f.text_field :address,
