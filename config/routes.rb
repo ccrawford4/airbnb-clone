@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :rentals
-  resources :listings do
+  resources :listings, only: [ :new, :create, :update ] do
     collection do
       patch :new
     end

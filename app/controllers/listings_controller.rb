@@ -15,6 +15,14 @@ class ListingsController < ApplicationController
       elsif params[:location]
         @location = params[:location]
         render "new"
+      elsif params[:address] && params[:state] && params[:zipcode]
+        # Update the location details
+        @location = {
+          address: params[:address],
+          state: params[:state],
+          zipcode: params[:zipcode]
+        }
+        render "new"
       end
     else
       render "new"
@@ -29,5 +37,15 @@ class ListingsController < ApplicationController
     @selected_rental_type = params[:rental_type_id] ? RentalType.find(params[:rental_type_id]) : nil
 
     render "new"
+  end
+
+  def update_location
+    # Assuming you have a Listing model and you are updating the current listing
+    @listing = Listing.find(params[:id])
+    if @listing.update(city: params[:city], zipcode: params[:zipcode])
+      render json: { success: true }
+    else
+      render json: { success: false }
+    end
   end
 end
