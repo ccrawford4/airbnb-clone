@@ -11,7 +11,7 @@
       <p class="text-gray-600 mt-1">Your address is only shared with guests after they've made a reservation.</p>
     </div>
 
-    <%= form_with(url: new_listing_path, local: true,  data: { controller: "places" },  class: "space-y-6") do |f| %>
+    <%= form_with(url: new_listing_path, local: true,  data: { controller: "places", action: "google-maps-callback@window->places#initMap" },  class: "space-y-6") do |f| %>
       <!-- Search input -->
       <div>
         <%= f.text_field :address,
@@ -39,6 +39,22 @@
       <!-- Save button -->
       <%= f.submit "Save Location",
           class: "bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" %>
+
+     <div>
+      <%= f.label :address %>
+      <%= f.search_field :address, class: 'form-control', data: { target: 'places.field' } %>
+    </div>
+
+    <div>
+      <%= f.label :latitude, class: 'form-control', data: { target: 'places.latitude' } %>
+    </div>
+
+    <div>
+      <%= f.label :longitude, class: 'form-control', data: { target: 'places.longitude' } %>
+    </div>
+
+    <div data-target="places.map" style="height:400px"></div>
+    </div>
     <% end %>
   </div>
   </div>
