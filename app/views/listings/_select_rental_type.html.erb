@@ -1,0 +1,11 @@
+<h1 class="title">Which of these best describes your place?</h1>
+    <div class="rental-types-grid">
+        <% @rental_types.each do |rental_type| %>
+        <%= link_to new_listing_path(step: @current_step, rental_type_id: rental_type.id), method: :patch, class: (params[:rental_type_id] == rental_type.id ? "rental-type-card-selected" : "rental-type-card") do %>
+            <div class="rental-type-icon">
+                <%= image_tag rental_type[:image_url], alt: rental_type[:name], class: "icon" %>
+            </div>
+            <p class="rental-type-name"><%= rental_type[:name] %></p>
+        <% end %>
+    <% end %>
+</div>
