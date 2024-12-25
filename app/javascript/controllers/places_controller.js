@@ -26,8 +26,12 @@ export default class extends Controller {
       "geometry",
       "icon",
       "name",
+      "formatted_address",
     ]);
-    this.autocomplete.addListener("place_changed", this.placeChanged.bind(this));
+    this.autocomplete.addListener(
+      "place_changed",
+      this.placeChanged.bind(this)
+    );
 
     this.marker = new google.maps.Marker({
       map: this.map,
@@ -36,9 +40,9 @@ export default class extends Controller {
   }
 
   placeChanged() {
-    console.log("Place changed!!!");
     let place = this.autocomplete.getPlace();
 
+    console.log("Place: ", place);
     if (!place.geometry) {
       window.alert(`No details available for input: ${place.name}`);
       return;
@@ -54,12 +58,13 @@ export default class extends Controller {
     this.marker.setPosition(place.geometry.location);
     this.marker.setVisible(true);
 
-    this.latitudeTarget.value = place.geometry.location.lat();
-    this.longitudeTarget.value = place.geometry.location.lng();
-
+    const latitude = place.geometry.location.lat();
+    const longitude = place.geometry.location.lng();
     const addressComponents = place.address_components;
     let city = "";
     let zipcode = "";
+    let country = "";
+    let state = "";
 
     addressComponents.forEach((component) => {
       const types = component.types;
@@ -69,28 +74,36 @@ export default class extends Controller {
       if (types.includes("postal_code")) {
         zipcode = component.long_name;
       }
+      if (types.includes("country")) {
+        country = component.long_name;
+      }
+      if (types.includes("administrative_area_level_1")) {
+        state = component.long_name;
+      }
     });
 
-    console.log()
-
-    // Send AJAX request to update location
-    fetch("/listings/update_location", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": document
-          .querySelector('meta[name="csrf-token"]')
-          .getAttribute("content"),
-      },
-      body: JSON.stringify({ city: city, zipcode: zipcode }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Data: ", data);
-        if (data.success) {
-          console.log("Location updated successfully");
-        }
+    try {
+      // Send AJAX request to update location
+      fetch("/listings/update_location", {
+        method: "POST",
+        body: JSON.stringify({
+          city: city,
+          state: state,
+          zipcode: zipcode,
+          country: country,
+          address: place.formatted_address,
+          latitude: latitude,
+          longitude: longitude,
+        }),
+      }).then((response) => {
+        console.log("Response: ", response);
+        response.json().then((data) => {
+          console.log("Data: ", data);
+        });
       });
+    } catch (error) {
+      console.log("Error: ", error);
+    }
   }
 
   keydown(event) {

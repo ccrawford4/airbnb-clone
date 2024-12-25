@@ -1,10 +1,9 @@
 Rails.application.routes.draw do
+  # skip_before_action :verify_authenticity_token
   resources :rentals
-  resources :listings, only: [ :new, :create, :update ] do
-    collection do
-      patch :new
-    end
-  end
+  resources :listings, only: [ :new, :create, :update ]
+  post "listings/update_location", action: :update_location, controller: "listings"
+
 
   get "home/index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

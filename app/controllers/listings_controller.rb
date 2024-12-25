@@ -1,5 +1,5 @@
 class ListingsController < ApplicationController
-  protect_from_forgery with: :null_session, only: [ :new ]
+  protect_from_forgery with: :null_session, only: [ :new, :update_location, :update ]
 
   def new
     @location = params[:location] || "San Francisco, CA"
@@ -40,12 +40,26 @@ class ListingsController < ApplicationController
   end
 
   def update_location
-    # Assuming you have a Listing model and you are updating the current listing
-    @listing = Listing.find(params[:id])
-    if @listing.update(city: params[:city], zipcode: params[:zipcode])
-      render json: { success: true }
-    else
-      render json: { success: false }
-    end
+    body = request.body.read
+    data = JSON.parse(body)
+
+    @city = data["city"]
+    @state = data["state"]
+    @country = data["country"]
+    @zipcode = data["zipcode"]
+    @address = data["address"]
+    @latitude = data["latitude"]
+    @longitude = data["longitude"]
+
+    render json: {
+      success: true,
+      city: @city,
+      state: @state,
+      country: @country,
+      zipcode: @zipcode,
+      address: @address,
+      latitude: @latitude,
+      longitude: @longitude
+    }
   end
 end

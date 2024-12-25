@@ -26,17 +26,8 @@
     <% elsif @current_step.to_i == 3 %>
       <%= render 'new_location' %>
     <% elsif @current_step.to_i == 4 %>
-        <%= render 'confirm_location' %>
+        <%= render 'confirm_details' %>
     <% end %>
-
-    <div class="navigation-buttons">
-      <%= link_to "Back", new_listing_path(step: [@current_step.to_i - 1, 1].max), class: "back-btn" unless @current_step.to_i == 1 %>
-      <% if @current_step.to_i == 2 and @selected_rental_type.nil? %>
-        <button class="next-btn" disabled>Next</button>
-      <% else %>
-        <%= link_to "Next", new_listing_path(step: [@current_step.to_i + 1, 4].min, rental_type_id: @rental_type_id, listing: @listing), class: "next-btn" %>
-      <% end %>
-    </div>
   </main>
   </div>
 </div>

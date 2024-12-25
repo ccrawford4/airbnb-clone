@@ -9,3 +9,12 @@
         <% end %>
     <% end %>
 </div>
+
+<div class="navigation-buttons">
+    <%= link_to "Back", new_listing_path(step: 1), class: "back-btn" %>
+    <% if @current_step.to_i == 2 and @selected_rental_type.nil? %>
+        <button class="next-btn" disabled>Next</button>
+      <% else %>
+    <%= link_to "Next", new_listing_path(step: 3, rental_type_id: params[:rental_type_id]), method: :patch, class: "next-btn" %>
+    <% end %>
+</div>
