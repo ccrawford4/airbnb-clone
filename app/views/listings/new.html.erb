@@ -25,7 +25,9 @@
       <%= render 'select_rental_type' %>
     <% elsif @current_step.to_i == 3 %>
       <%= render 'new_location' %>
-    <% elsif @current_step.to_i == 4 %>
+    <% elsif @current_step.to_i == 4%>
+      <%= render 'provide_rental_basics' %>
+    <% elsif @current_step.to_i == 5 %>
         <%= render 'confirm_details' %>
     <% end %>
   </main>

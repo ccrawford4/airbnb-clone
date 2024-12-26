@@ -7,6 +7,10 @@ class ListingsController < ApplicationController
     @current_step = params[:step] || 1
     @rental_types = RentalType.all
     @selected_rental_type = params[:rental_type_id] ? RentalType.find(params[:rental_type_id]) : nil
+    @num_guests = params[:num_guests] || 1
+    @num_bathrooms = params[:num_bathrooms] || 1
+    @num_bedrooms = params[:num_bedrooms] || 1
+    @num_beds = params[:num_beds] || 1
 
     if request.patch?
       if params[:rental_type_id]
