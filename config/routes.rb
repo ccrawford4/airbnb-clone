@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   # skip_before_action :verify_authenticity_token
   resources :rentals
   resources :listings, only: [ :new, :create, :update ]
-  post "listings/update_location", action: :update_location, controller: "listings"
+  post "rentals/update_location", action: :update_location, controller: "rentals"
 
 
   get "home/index"

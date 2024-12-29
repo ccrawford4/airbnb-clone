@@ -2,7 +2,7 @@
     <h1>Confirm your address</h1>
     <h2>Your address is only shared with guests after they've made a reservation.</h2>
     <div>
-        <%= form_with(url: new_listing_path, local: true) do |f| %>
+        <%= form_with(url: new_rental_path, local: true) do |f| %>
         <div>
             <%= f.label :address %>
             <%= f.text_field :address, class: "search-input" %>

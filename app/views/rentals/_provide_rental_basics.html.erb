@@ -1,4 +1,4 @@
-<%= form_with(url: new_listing_path, local: true, class: "accommodation-form") do |f| %>
+<%= form_with(url: new_rental_path, local: true, class: "accommodation-form") do |f| %>
   <h1 class="form-title">Share some basics about your place</h1>
   <p class="form-subtitle">You'll add more details later, like bed types.</p>
 
@@ -42,8 +42,8 @@
 <% end %>
 
 <div class="navigation-buttons">
-    <%= link_to "Back", new_listing_path(step: @current_step.to_i - 1), class: "back-btn" %>
-    <%= link_to "Next", new_listing_path(step: @current_step.to_i + 1, rental_type_id: params[:rental_type_id]), class: "next-btn" %>
+    <%= link_to "Back", new_rental_path(step: @current_step.to_i - 1), class: "back-btn" %>
+    <%= link_to "Next", new_rental_path(step: @current_step.to_i + 1, rental_type_id: params[:rental_type_id]), class: "next-btn" %>
 </div>
 
 <style>

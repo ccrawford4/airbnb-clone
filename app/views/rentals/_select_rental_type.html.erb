@@ -1,7 +1,7 @@
 <h1 class="title">Which of these best describes your place?</h1>
     <div class="rental-types-grid">
         <% @rental_types.each do |rental_type| %>
-        <%= link_to new_listing_path(step: @current_step, rental_type_id: rental_type.id), method: :patch, class: (params[:rental_type_id] == rental_type.id ? "rental-type-card-selected" : "rental-type-card") do %>
+        <%= link_to new_rental_path(step: @current_step, rental_type_id: rental_type.id), method: :patch, class: (params[:rental_type_id] == rental_type.id ? "rental-type-card-selected" : "rental-type-card") do %>
             <div class="rental-type-icon">
                 <%= image_tag rental_type[:image_url], alt: rental_type[:name], class: "icon" %>
             </div>
@@ -11,10 +11,10 @@
 </div>
 
 <div class="navigation-buttons">
-    <%= link_to "Back", new_listing_path(step: 1), class: "back-btn" %>
+    <%= link_to "Back", new_rental_path(step: 1), class: "back-btn" %>
     <% if @current_step.to_i == 2 and @selected_rental_type.nil? %>
         <button class="next-btn" disabled>Next</button>
       <% else %>
-    <%= link_to "Next", new_listing_path(step: 3, rental_type_id: params[:rental_type_id]), method: :patch, class: "next-btn" %>
+    <%= link_to "Next", new_rental_path(step: 3, rental_type_id: params[:rental_type_id]), method: :patch, class: "next-btn" %>
     <% end %>
 </div>
