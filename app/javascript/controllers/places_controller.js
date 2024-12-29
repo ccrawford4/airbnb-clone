@@ -2,6 +2,7 @@ import { Controller } from "stimulus";
 
 export default class extends Controller {
   static targets = ["field", "map", "latitude", "longitude"];
+  static values = { rentalId: Number };
 
   connect() {
     console.log("Connected!!!");

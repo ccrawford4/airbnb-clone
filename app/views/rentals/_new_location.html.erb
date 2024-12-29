@@ -63,16 +63,12 @@
             class: "search-input",
             placeholder: "Enter your address",
             data: {
-              target: 'places.field'
+              target: 'places.field',
+            #  places_rental_id_value: @rental.id
             } %>
       </div>
 
       <div data-target="places.map" class="map-container"></div>
     <% end %>
   </div>
-</div>
-
-<div class="navigation-buttons">
-    <%= link_to "Back", new_rental_path(step: @current_step.to_i - 1, rental_type_id: params[:rental_type_id]), class: "back-btn" %>
-    <%= link_to "Next", new_rental_path(step: @current_step.to_i + 1, rental_type_id: params[:rental_type_id]), class: "next-btn" %>
 </div>

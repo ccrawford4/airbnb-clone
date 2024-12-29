@@ -30,8 +30,28 @@
     <% elsif @current_step.to_i == 5 %>
         <%= render 'confirm_details' %>
     <% end %>
+    
+    <p>Address: <%= @address %></p>
+     <% if Rails.env.development? %>
+        <div class="debug-info">
+          <p>Session Address: <%= session[:address].inspect %></p>
+          <p>Instance Address: <%= @address.inspect %></p>
+          <p>Rental Id: <%= @rental.id %></p>
+        </div>
+      <% end %>
+    <div class="navigation-buttons">
+      <% unless @current_step.to_i == 1 %>
+        <%= link_to "Back", new_rental_path(step: @current_step.to_i - 1), class: "back-btn" %>
+      <% end %>
+      
+      <% if (@current_step.to_i == 2 && @selected_rental_type.nil?) || (@current_step.to_i == 3 && session[:address].nil?) %>
+        <button class="next-btn" disabled>Next</button>
+      <% else %>
+        <%= link_to "Next", new_rental_path(step: @current_step + 1), class: "next-btn" %>
+      <% end %>
+    </div>
   </main>
-  </div>
+</div>
 </div>
 
 <script>
