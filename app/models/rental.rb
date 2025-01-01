@@ -5,6 +5,7 @@ class Rental < ApplicationRecord
   validates :short_description, presence: true
   validates :address, presence: true
   validates :price, presence: true
+  validates :category_ids, presence: true
 
   accepts_nested_attributes_for :rental_images, allow_destroy: true
 end
