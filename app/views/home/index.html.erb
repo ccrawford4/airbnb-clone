@@ -20,7 +20,9 @@
     <div class="tab-pane fade <%= 'show active' if index == 0 %>" id="category-<%= category.id %>" role="tabpanel" aria-labelledby="tab-<%= category.id %>">
       <div class="rental-gallery">
         <% category.rentals.each do |rental| %>
+        <%= link_to rental_path(rental) do %>
           <%= render 'rentals/rental_card', rental: rental %>
+        <% end %>
         <% end %>
       </div>
     </div>

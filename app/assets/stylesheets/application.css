@@ -18,31 +18,32 @@
   margin-right: 10px;
 }
 
-.rental-gallery {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
 .rental-card {
   border: 1px solid #ccc;
   padding: 20px;
   width: 200px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
+  transition: transform 0.2s ease;
 }
 
-.rental-card img.cover-image {
-  width: 100%;
-  height: auto;
-  margin-bottom: 10px;
+.rental-gallery a {
+  text-decoration: none;
+  color: inherit;
 }
 
-.rental-card h2 {
-  font-size: 1.5em;
-  margin-bottom: 10px;
+.rental-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
 }
 
 .rental-card p {
   margin: 5px 0;
+  color: #333;
+}
+
+.rental-gallery a:hover {
+  text-decoration: none;
+  color: inherit;
 }

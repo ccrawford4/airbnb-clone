@@ -21,6 +21,17 @@ class RentalsController < ApplicationController
     end
   end
 
+  def destroy
+    @rental = Rental.find(params[:id])
+    @rental_image = RentalImage.find_by(rental_id: @rental.id)
+    if @rental_image.present?
+      @rental_image.image.purge
+      @rental_image.destroy
+    end
+    @rental.destroy
+    redirect_to root_path, notice: "Rental was successfully destroyed."
+  end
+
   private
 
   def rental_params
