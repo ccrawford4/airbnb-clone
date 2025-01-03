@@ -1,5 +1,59 @@
+<style>
+.container {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 32px 16px;
+}
+
+.step-indicator {
+  margin-bottom: 24px;
+}
+
+.step-text {
+  font-size: 14px;
+  color: #666;
+}
+
+.content {
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: normal;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 24px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #ccc;
+}
+
+.map-container {
+  height: 400px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 16px;
+}
+</style>
+
 <div>
-  <%= form_with(model: @rental, local: true, html: { multipart: true }) do |form| %>
+  <%= form_with(model: @rental, local: true, data: { controller: "places", action: "google-maps-callback@window->places#initMap" }, html: { multipart: true }) do |form| %>
     <% if @rental.errors.any? %>
       <div class="error-container">
         <h2 class="error-title"><%= pluralize(@rental.errors.count, "error") %> prohibited this rental from being saved:</h2>
@@ -24,6 +78,24 @@
     <div class="field">
       <%= form.label :address %>
       <%= form.text_field :address %>
+    </div>
+
+    <div class="container">
+      <div class="content">
+        <h1 class="title">Where's your place located?</h1>
+        <p class="subtitle">Your address is only shared with guests after they've made a reservation.</p>
+
+          <div>
+            <%= form.search_field :address,
+                class: "search-input",
+                placeholder: "Enter your address",
+                data: {
+                  target: 'places.field',
+                } %>
+          </div>
+
+          <div data-target="places.map" class="map-container"></div>
+      </div>
     </div>
 
     <div class="field">
