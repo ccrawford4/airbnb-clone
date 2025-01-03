@@ -22,6 +22,8 @@ gem "webpacker" # Webpack
 
 gem "net-protocol" # Required by Action Mailer
 
+gem "listen", ">= 3.0.5", "< 3.3"
+
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 
