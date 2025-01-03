@@ -420,8 +420,6 @@ DEPENDENCIES
   jbuilder
   kamal
   listen (>= 3.0.5, < 3.3)
-  net-pop (~> 0.1.2)
-  net-protocol
   pg
   propshaft
   puma (>= 5.0)

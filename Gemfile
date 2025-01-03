@@ -20,8 +20,6 @@ gem "jbuilder"
 gem "pg" # PostgreSQL
 gem "webpacker" # Webpack
 
-gem "net-protocol" # Required by Action Mailer
-
 gem "listen", ">= 3.0.5", "< 3.3"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
@@ -40,8 +38,6 @@ gem "aws-sdk-s3"
 gem "dotenv-rails", groups: [ :development, :test ]
 
 gem "image_processing", "~> 1.2"
-
-gem "net-pop", "~> 0.1.2"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
