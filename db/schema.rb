@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_18_191436) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_29_023309) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "uuid-ossp"
@@ -57,6 +57,14 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_18_191436) do
     t.index ["rental_id"], name: "index_categories_rentals_on_rental_id"
   end
 
+  create_table "locations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "address"
+    t.decimal "latitude"
+    t.decimal "longitude"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "rental_images", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "rental_id", null: false
     t.string "description"
@@ -65,10 +73,17 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_18_191436) do
     t.boolean "is_cover", default: false
   end
 
+  create_table "rental_types", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.text "image_url", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "rentals", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "address"
     t.decimal "score"
-    t.decimal "price"
+    t.decimal "price", precision: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "short_description"

@@ -1,0 +1,256 @@
+<%= form_with(model: @rental, local: true, class: "photo-upload-form") do |f| %>
+  <div class="upload-container">
+    <h1 class="upload-title">Add some photos of your house</h1>
+    <p class="upload-subtitle">You'll need 5 photos to get started. You can add more or make changes later.</p>
+
+    <div class="photos-grid" id="sortable-photos">
+      <%= f.fields_for :rental_images do |image_form| %>
+        <% if image_form.object.image_url.present? %>
+          <div class="photo-item" data-id="<%= image_form.object.id %>">
+            <%= image_tag image_form.object.image_url, class: "uploaded-image" %>
+            <div class="photo-overlay">
+              <span class="cover-badge">Cover Photo</span>
+              <button type="button" class="more-options">•••</button>
+            </div>
+            <%= image_form.hidden_field :position %>
+          </div>
+        <% end %>
+      <% end %>
+
+      <!-- Empty photo slots -->
+      <% (5 - @rental.rental_images.count).times do %>
+        <div class="photo-upload-placeholder">
+          <label class="upload-label">
+            <span class="upload-icon">
+              <%= image_tag "camera-icon.svg", alt: "Upload", class: "camera-icon" %>
+            </span>
+            <input type="file" name="rental[images][]" class="hidden-file-input" accept="image/*" data-direct-upload-url="<%= rails_direct_uploads_path %>" multiple>
+          </label>
+        </div>
+      <% end %>
+
+      <!-- Add more button (visible when 5+ photos uploaded) -->
+      <% if @rental.rental_images.count >= 5 %>
+        <div class="add-more-placeholder">
+          <label class="upload-label">
+            <span class="plus-icon">+</span>
+            <span>Add more</span>
+            <input type="file" class="hidden-file-input" accept="image/*" multiple>
+          </label>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<style>
+.photo-upload-form {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.upload-title {
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #222222;
+}
+
+.upload-subtitle {
+  font-size: 18px;
+  color: #717171;
+  margin-bottom: 32px;
+}
+
+.photos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.photo-item, .photo-upload-placeholder, .add-more-placeholder {
+  aspect-ratio: 4/3;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.photo-upload-placeholder, .add-more-placeholder {
+  border: 2px dashed #dddddd;
+  background-color: #f7f7f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-label {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #717171;
+}
+
+.camera-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 8px;
+  opacity: 0.6;
+}
+
+.plus-icon {
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+
+.hidden-file-input {
+  display: none;
+}
+
+.uploaded-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.cover-badge {
+  background-color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.more-options {
+  background-color: white;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Drag and drop states */
+.photo-item.dragging {
+  opacity: 0.5;
+}
+
+.photo-upload-placeholder.drag-over {
+  border-color: #222222;
+  background-color: #f0f0f0;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize drag and drop sorting
+  const grid = document.getElementById('sortable-photos');
+  new Sortable(grid, {
+    animation: 150,
+    ghostClass: 'dragging',
+    onEnd: function(evt) {
+      updatePositions();
+    }
+  });
+
+  // Handle file inputs
+  document.querySelectorAll('.hidden-file-input').forEach(input => {
+    input.addEventListener('change', handleFileSelect);
+  });
+
+  // Handle drag and drop
+  document.querySelectorAll('.photo-upload-placeholder').forEach(placeholder => {
+    placeholder.addEventListener('dragover', handleDragOver);
+    placeholder.addEventListener('dragleave', handleDragLeave);
+    placeholder.addEventListener('drop', handleDrop);
+  });
+});
+
+function handleFileSelect(event) {
+  const files = event.target.files;
+  uploadFiles(files);
+}
+
+function handleDragOver(event) {
+  event.preventDefault();
+  event.currentTarget.classList.add('drag-over');
+}
+
+function handleDragLeave(event) {
+  event.currentTarget.classList.remove('drag-over');
+}
+
+function handleDrop(event) {
+  event.preventDefault();
+  event.currentTarget.classList.remove('drag-over');
+  const files = event.dataTransfer.files;
+  uploadFiles(files);
+}
+
+function uploadFiles(files) {
+  // Handle file upload to S3 via ActiveStorage
+  Array.from(files).forEach(file => {
+    const upload = new DirectUpload(file, document.querySelector('input[type=file]').dataset.directUploadUrl);
+    
+    upload.create((error, blob) => {
+      if (error) {
+        console.error('Error uploading file:', error);
+      } else {
+        // Create new RentalImage via AJAX
+        createRentalImage(blob.signed_id);
+      }
+    });
+  });
+}
+
+function createRentalImage(blobId) {
+  const token = document.querySelector('meta[name="csrf-token"]').content;
+  
+  fetch('/rental_images', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': token
+    },
+    body: JSON.stringify({
+      rental_image: {
+        image_blob_id: blobId
+      }
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      location.reload(); // Refresh to show new images
+    }
+  })
+  .catch(error => console.error('Error:', error));
+}
+
+function updatePositions() {
+  const photos = document.querySelectorAll('.photo-item');
+  photos.forEach((photo, index) => {
+    const positionInput = photo.querySelector('input[name*="position"]');
+    if (positionInput) positionInput.value = index + 1;
+  });
+}
+</script>

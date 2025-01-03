@@ -1,0 +1,10 @@
+@layer components {
+    .map-placeholder {
+      @apply relative;
+    }
+    
+    .map-placeholder::after {
+      content: "";
+      @apply absolute inset-0 bg-gray-100;
+    }
+  }

@@ -1,0 +1,220 @@
+/* app/assets/stylesheets/listings.css */
+.listing-creation {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 2rem;
+  }
+  
+  .logo img {
+    text-decoration: none;
+    height: 50px;
+    width: 50px;
+  }
+  
+  .header-actions {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .questions-btn,
+  .save-exit-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 1.5rem;
+    background: white;
+    font-size: 0.875rem;
+    cursor: pointer;
+  }
+  
+  .questions-btn:hover,
+  .save-exit-btn:hover {
+    background: #f7f7f7;
+  }
+  
+  .main-content {
+    flex: 1;
+    flex-direction: row;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  
+  .step-indicator {
+    color: #717171;
+    margin-bottom: 1rem;
+  }
+  
+  .title {
+    font-size: 1.75rem;
+    font-weight: 470;
+    margin-bottom: 1rem;
+  }
+  
+  .description {
+    color: #717171;
+    max-width: 600px;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+  }
+  
+  .property-preview {
+    margin: 2rem 0;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .property-image {
+    max-width: 600px;
+    height: auto;
+    border-radius: 0.5rem;
+  }
+  
+  .navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 2rem;
+    border-top: 1px solid #ddd;
+  }
+  
+  .back-btn,
+  .next-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .back-btn {
+    color: #222;
+    background: transparent;
+  }
+  
+  .next-btn {
+    color: white;
+    background: #222;
+  }
+  
+  .back-btn:hover {
+    background: #f7f7f7;
+    text-decoration: none;
+    color:#000
+  }
+  
+  .next-btn:hover {
+    background: #000;
+    text-decoration: none;
+    color: #f7f7f7;
+  }
+
+  .next-btn[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #ccc;
+  }
+  .content-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .text-content {
+    flex: 1;
+    min-width: 300px;
+  }
+  
+  .video-content {
+    flex: 1;
+    min-width: 300px;
+  }
+  
+  .video-content video {
+    width: 100%;
+    height: auto;
+  }
+  
+  @media (max-width: 768px) {
+    .content-container {
+      flex-direction: column;
+    }
+  
+    .text-content,
+    .video-content {
+      width: 100%;
+    }
+  }
+
+  .rental-types-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+    max-width: 850px;  /* This will keep 3 columns close together */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+  @media (min-width: 768px) {
+    .rental-types-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .rental-types-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .rental-type-card {
+    border: 1px solid #ddd;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    max-width: 250px;
+    text-decoration: none;
+    color: black
+  }
+  
+  .rental-type-card:hover {
+    border-color: #222;
+    text-decoration: none;
+    color: black;
+  }
+
+  .rental-type-card-selected {
+    border:  2px solid black;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    max-width: 250px;
+    text-decoration: none;
+    color: black;
+  }
+
+  .rental-type-card-selected:hover {
+    border-color: #222;
+    text-decoration: none;
+    color: black;
+  }
+  
+  
+  .rental-type-icon .icon {
+    width: 3rem;
+    height: 3rem;
+    padding-left: 5px;
+  }
+  
+  .rental-type-name {
+    font-size: 1.125rem;
+    font-weight: 500;
+  }
