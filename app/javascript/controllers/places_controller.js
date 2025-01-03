@@ -2,7 +2,10 @@ import { Controller } from "stimulus";
 
 export default class extends Controller {
   static targets = ["field", "map", "latitude", "longitude"];
-  static values = { rentalId: Number };
+  static values = {
+    rentalId: Number,
+    address: String,
+  };
 
   connect() {
     console.log("Connected!!!");
@@ -12,32 +15,57 @@ export default class extends Controller {
   }
 
   initMap() {
-    this.map = new google.maps.Map(this.mapTarget, {
-      center: new google.maps.LatLng(
-        this.data.get("latitude") || 39.5,
-        this.data.get("longitude") || -98.35
-      ),
-      zoom: this.data.get("latitude") == null ? 4 : 15,
-    });
+    if (this.hasMapTarget) {
+      const geocoder = new google.maps.Geocoder();
 
-    this.autocomplete = new google.maps.places.Autocomplete(this.fieldTarget);
-    this.autocomplete.bindTo("bounds", this.map);
-    this.autocomplete.setFields([
-      "address_components",
-      "geometry",
-      "icon",
-      "name",
-      "formatted_address",
-    ]);
-    this.autocomplete.addListener(
-      "place_changed",
-      this.placeChanged.bind(this)
-    );
+      geocoder.geocode({ address: this.addressValue }, (results, status) => {
+        console.log("Geocoding results:", results);
+        console.log("Geocoding status:", status);
 
-    this.marker = new google.maps.Marker({
-      map: this.map,
-      anchorPoint: new google.maps.Point(0, -29),
-    });
+        if (status === "OK") {
+          const location = results[0].geometry.location;
+
+          this.map = new google.maps.Map(this.mapTarget, {
+            center: location,
+            zoom: 15,
+          });
+
+          new google.maps.Marker({
+            map: this.map,
+            position: location,
+          });
+        } else {
+          console.error("Geocoding failed:", status);
+        }
+      });
+    } else {
+      this.map = new google.maps.Map(this.mapTarget, {
+        center: new google.maps.LatLng(
+          this.data.get("latitude") || 39.5,
+          this.data.get("longitude") || -98.35
+        ),
+        zoom: this.data.get("latitude") == null ? 4 : 15,
+      });
+
+      this.autocomplete = new google.maps.places.Autocomplete(this.fieldTarget);
+      this.autocomplete.bindTo("bounds", this.map);
+      this.autocomplete.setFields([
+        "address_components",
+        "geometry",
+        "icon",
+        "name",
+        "formatted_address",
+      ]);
+      this.autocomplete.addListener(
+        "place_changed",
+        this.placeChanged.bind(this)
+      );
+
+      this.marker = new google.maps.Marker({
+        map: this.map,
+        anchorPoint: new google.maps.Point(0, -29),
+      });
+    }
   }
 
   placeChanged() {

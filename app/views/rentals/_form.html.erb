@@ -75,11 +75,6 @@
       <%= form.collection_select :category_ids, Category.all, :id, :name, { prompt: "Select up to 3 Categories" }, { multiple: true, size: 5 } %>
     </div>
 
-    <div class="field">
-      <%= form.label :address %>
-      <%= form.text_field :address %>
-    </div>
-
     <div class="container">
       <div class="content">
         <h1 class="title">Where's your place located?</h1>
