@@ -20,6 +20,8 @@ gem "jbuilder"
 gem "pg" # PostgreSQL
 gem "webpacker" # Webpack
 
+gem "net-protocol" # Required by Action Mailer
+
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 

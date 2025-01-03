@@ -377,6 +377,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal
+  net-protocol
   pg
   propshaft
   puma (>= 5.0)
