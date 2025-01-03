@@ -65,54 +65,69 @@ class RentalsController < ApplicationController
     # session.delete(:address)
   end
 
-  def create
-    @rental = Rental.create()
+  def edit
+    @rental = Rental.find(params[:id])
+    @rental_image = RentalImage.find_by(rental_id: @rental.id)
+    if @rental_image.nil?
+      render "error"
+    end
   end
 
-  # def update
-  #   # would have to recreate them
-  #   @location = params[:location] || "San Francisco, CA"
-  #   @logo_url = "https://airbnb-clone1.s3.us-west-1.amazonaws.com/protected-assets/airbnb-logo-black-white-background.jpg"
-  #   @current_step = params[:step] || 1
-  #   @rental_types = RentalType.all
-  #   @selected_rental_type = params[:rental_type_id] ? RentalType.find(params[:rental_type_id]) : nil
-
-  #   render "new"
-  # end
-
-  def update_rental_type_id
-    @rental_type_id = params[:rental_type_id]
+  def create
+    @rental = Rental.create(rental_params)
+    if @rental.save
+      redirect_to root_path, notice: "Rental was successfully created."
+    else
+      render :new
+    end
   end
 
   def update
-    body = request.body.read
-    data = JSON.parse(body)
+    @rental = Rental.find(params[:id])
+    @rental_image = RentalImage.find_by(rental_id: @rental.id)
 
-    @city = data["city"]
-    @state = data["state"]
-    @country = data["country"]
-    @zipcode = data["zipcode"]
-    @address = data["address"]
-    @latitude = data["latitude"]
-    @longitude = data["longitude"]
+    ActiveRecord::Base.transaction do
+      # Extract nested attributes for the first rental image
+      image_attributes = rental_params[:rental_images_attributes]["0"]
 
-    Rails.logger.debug "Storing address in session: #{session[:address]}"
-    puts "Storing address in session: #{session[:address]}"
+      if @rental_image.update(
+        is_cover: image_attributes[:is_cover],
+        description: image_attributes[:description]
+      )
+        if @rental.update(rental_params.except(:rental_images_attributes))
+          redirect_to show, notice: "Rental was successfully updated."
+        else
+          raise ActiveRecord::Rollback
+        end
+      else
+        raise ActiveRecord::Rollback
+      end
+    end
+  rescue ActiveRecord::Rollback
+    render :edit
+  end
 
-    render json: {
-      success: true,
-      city: @city,
-      state: @state,
-      country: @country,
-      zipcode: @zipcode,
-      address: @address,
-      latitude: @latitude,
-      longitude: @longitude
-    }
+  def destroy
+    @rental = Rental.find(params[:id])
+    @rental_image = RentalImage.find_by(rental_id: @rental.id)
+    if @rental_image.present?
+      @rental_image.image.purge
+      @rental_image.destroy
+    end
+    @rental.destroy
+    redirect_to root_path, notice: "Rental was successfully destroyed."
   end
 
   private
-  def load_location_data
-    @address = session[:address]
+
+  def rental_params
+    params.require(:rental).permit(
+      :short_description,
+      :address,
+      :score,
+      :price,
+      category_ids: [],
+      rental_images_attributes: [ :image, :is_cover, :description ]
+    )
   end
 end

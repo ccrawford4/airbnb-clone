@@ -86,11 +86,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_29_023309) do
     t.decimal "price", precision: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "short_description", limit: 100
-    t.text "long_description"
-    t.decimal "latitude", precision: 10, scale: 6
-    t.decimal "longitude", precision: 10, scale: 6
-    t.boolean "draft", default: false
+    t.string "short_description"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
