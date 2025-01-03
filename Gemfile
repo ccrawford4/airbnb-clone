@@ -20,7 +20,7 @@ gem "jbuilder"
 gem "pg" # PostgreSQL
 gem "webpacker" # Webpack
 
-gem "listen", ">= 3.0.5", "< 3.3"
+gem "listen", ">= 3.0.5", "< 3.10"
 
 gem "net-protocol", "~> 0.1.2"
 
