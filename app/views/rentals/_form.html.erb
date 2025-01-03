@@ -1,0 +1,68 @@
+<div>
+  <%= form_with(model: @rental, local: true, html: { multipart: true }) do |form| %>
+    <% if @rental.errors.any? %>
+      <div class="error-container">
+        <h2 class="error-title"><%= pluralize(@rental.errors.count, "error") %> prohibited this rental from being saved:</h2>
+        <ul class="error-list">
+          <% @rental.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= form.label :rental_description %>
+      <%= form.text_area :short_description %>
+    </div>
+
+    <div class="field">
+      <%= form.label :category_ids, "Categories" %>
+      <%= form.collection_select :category_ids, Category.all, :id, :name, { prompt: "Select up to 3 Categories" }, { multiple: true, size: 5 } %>
+    </div>
+
+    <div class="field">
+      <%= form.label :address %>
+      <%= form.text_field :address %>
+    </div>
+
+    <div class="field">
+      <%= form.label :score %>
+      <%= form.number_field :score %>
+    </div>
+
+    <div class="field">
+      <%= form.label :price %>
+      <%= form.number_field :price %>
+    </div>
+
+    <div class="field file-input">
+      <%= form.fields_for :rental_images do |image_form| %>
+        <% if @rental_image.present? %>
+          <div class="existing-image">
+            <p>Current image: <%= @rental_image.description %></p>
+          </div>
+        <% end %>
+        
+        <%= image_form.file_field :image, 
+          class: "hidden-file-input", 
+          accept: "image/*",
+          onchange: "
+            var filename = this.files[0].name;
+            document.getElementById('filename').textContent = filename;
+            document.getElementById('description').value = filename;
+          "
+        %>
+        <%= image_form.label :image, "Upload Image", class: "upload-button" %>
+        <%= image_form.hidden_field :is_cover, value: true %>
+        <span id="filename" class="file-name"></span>
+        <%= image_form.hidden_field :description, id: 'description' %>
+        <span id="filename" class="file-name"></span>
+      <% end %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit class: 'submit-button' %>
+    </div>
+  <% end %>
+</div>
