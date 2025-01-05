@@ -53,7 +53,7 @@
 </style>
 
 <div>
-  <%= form_with(model: @rental, local: true, data: { controller: "places", action: "google-maps-callback@window->places#initMap" }, html: { multipart: true }) do |form| %>
+  <%= form_with(model: @rental, local: true, html: { multipart: true }) do |form| %>
     <% if @rental.errors.any? %>
       <div class="error-container">
         <h2 class="error-title"><%= pluralize(@rental.errors.count, "error") %> prohibited this rental from being saved:</h2>
@@ -76,20 +76,25 @@
     </div>
 
     <div class="container">
-      <div class="content">
+      <div class="content" 
+          data-controller="places" 
+          data-action="google-maps-callback@window->places#initMap"
+          data-places-address-value="<%= @rental&.address %>">
         <h1 class="title">Where's your place located?</h1>
         <p class="subtitle">Your address is only shared with guests after they've made a reservation.</p>
 
-          <div>
-            <%= form.search_field :address,
-                class: "search-input",
-                placeholder: "Enter your address",
-                data: {
-                  target: 'places.field',
-                } %>
-          </div>
+        <div>
+          <%= form.search_field :address,
+              class: "search-input",
+              placeholder: "Enter your address",
+              data: {
+                target: 'places.field'
+              } %>
+        </div>
 
-          <div data-target="places.map" class="map-container"></div>
+        <div data-places-target="map" 
+            class="map-container">
+        </div>
       </div>
     </div>
 
@@ -104,7 +109,7 @@
     </div>
 
     <div class="field file-input">
-      <%= form.fields_for :rental_images do |image_form| %>
+      <%= form.fields_for :rental_images, RentalImage.new do |image_form| %>
         <% if @rental_image.present? %>
           <div class="existing-image">
             <p>Current image: <%= @rental_image.description %></p>
