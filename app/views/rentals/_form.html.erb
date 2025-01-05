@@ -109,7 +109,7 @@
     </div>
 
     <div class="field file-input">
-      <%= form.fields_for :rental_images do |image_form| %>
+      <%= form.fields_for :rental_images, RentalImage.new do |image_form| %>
         <% if @rental_image.present? %>
           <div class="existing-image">
             <p>Current image: <%= @rental_image.description %></p>
