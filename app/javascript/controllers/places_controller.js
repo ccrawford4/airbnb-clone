@@ -15,7 +15,8 @@ export default class extends Controller {
   }
 
   initMap() {
-    if (this.hasMapTarget) {
+    // If the address value is present, then use it to geocode the location
+    if (this.hasMapTarget && this.addressValue) {
       const geocoder = new google.maps.Geocoder();
 
       geocoder.geocode({ address: this.addressValue }, (results, status) => {
@@ -30,7 +31,7 @@ export default class extends Controller {
             zoom: 15,
           });
 
-          new google.maps.Marker({
+          this.marker = new google.maps.Marker({
             map: this.map,
             position: location,
           });
@@ -38,34 +39,34 @@ export default class extends Controller {
           console.error("Geocoding failed:", status);
         }
       });
-    } else {
-      this.map = new google.maps.Map(this.mapTarget, {
-        center: new google.maps.LatLng(
-          this.data.get("latitude") || 39.5,
-          this.data.get("longitude") || -98.35
-        ),
-        zoom: this.data.get("latitude") == null ? 4 : 15,
-      });
+    } 
 
-      this.autocomplete = new google.maps.places.Autocomplete(this.fieldTarget);
-      this.autocomplete.bindTo("bounds", this.map);
-      this.autocomplete.setFields([
-        "address_components",
-        "geometry",
-        "icon",
-        "name",
-        "formatted_address",
-      ]);
-      this.autocomplete.addListener(
-        "place_changed",
-        this.placeChanged.bind(this)
-      );
+    this.map = new google.maps.Map(this.mapTarget, {
+      center: new google.maps.LatLng(
+        this.data.get("latitude") || 39.5,
+        this.data.get("longitude") || -98.35
+      ),
+      zoom: this.data.get("latitude") == null ? 4 : 15,
+    });
 
-      this.marker = new google.maps.Marker({
-        map: this.map,
-        anchorPoint: new google.maps.Point(0, -29),
-      });
-    }
+    this.autocomplete = new google.maps.places.Autocomplete(this.fieldTarget);
+    this.autocomplete.bindTo("bounds", this.map);
+    this.autocomplete.setFields([
+      "address_components",
+      "geometry",
+      "icon",
+      "name",
+      "formatted_address",
+    ]);
+    this.autocomplete.addListener(
+      "place_changed",
+      this.placeChanged.bind(this)
+    );
+
+    this.marker = new google.maps.Marker({
+      map: this.map,
+      anchorPoint: new google.maps.Point(0, -29),
+    });
   }
 
   placeChanged() {
